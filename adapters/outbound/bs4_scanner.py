@@ -1,8 +1,8 @@
 import requests
 from bs4 import BeautifulSoup
 from urllib.parse import urljoin, urlparse
-from domain.ports.scanner_port import ScannerPort
-from domain.models import DocumentChunk
+from ports.outbound.scanner_port import ScannerPort
+from domain.entities.chunk import DocumentChunk
 
 class BS4Scanner(ScannerPort):
     def scan(self, url: str, max_pages: int) -> list[DocumentChunk]:
@@ -25,32 +25,20 @@ class BS4Scanner(ScannerPort):
 
                 soup = BeautifulSoup(response.text, "html.parser")
 
-                # Find all internal links and add to queue
                 for tag in soup.find_all("a", href=True):
-                    href = tag["href"]
-                    full_url = urljoin(url, href)
+                    full_url = urljoin(url, tag["href"])
                     parsed = urlparse(full_url)
-
-                    # Only follow links on the same domain
+                    skip = [".pdf", ".jpg", ".png", ".zip", "#", "mailto:", "tel:"]
                     if parsed.netloc == base_domain and full_url not in visited:
-                        # Skip non-content pages
-                        skip = [".pdf", ".jpg", ".png", ".zip", 
-                                "#", "mailto:", "tel:", "javascript:"]
                         if not any(s in full_url for s in skip):
                             to_visit.append(full_url)
 
-                # Remove noise tags
-                for tag in soup(["script", "style", "nav", 
-                                 "footer", "header", "meta"]):
+                for tag in soup(["script", "style", "nav", "footer", "header"]):
                     tag.decompose()
 
-                text = soup.get_text(separator=" ", strip=True)
-
-                # Split into chunks
-                words = text.split()
-                chunk_size = 150
-                for i in range(0, len(words), chunk_size):
-                    chunk_text = " ".join(words[i:i + chunk_size])
+                words = soup.get_text(separator=" ", strip=True).split()
+                for i in range(0, len(words), 150):
+                    chunk_text = " ".join(words[i:i + 150])
                     if len(chunk_text.strip()) < 50:
                         continue
                     all_chunks.append(DocumentChunk(
@@ -60,10 +48,9 @@ class BS4Scanner(ScannerPort):
                     ))
                     chunk_index += 1
 
-                print(f"  ✓ Scraped {current_url} — {len(visited)} pages so far")
+                print(f"  ✓ {current_url}")
 
             except Exception as e:
-                print(f"  ✗ Could not fetch {current_url}: {e}")
-                continue
+                print(f"  ✗ {current_url}: {e}")
 
         return all_chunks
