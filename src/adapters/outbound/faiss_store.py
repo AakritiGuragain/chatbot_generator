@@ -2,8 +2,8 @@ import os
 import json
 import faiss
 import numpy as np
-from ports.outbound.vector_store_port import VectorStorePort
-from domain.entities.chunk import DocumentChunk
+from src.ports.outbound.vector_store_port import VectorStorePort
+from src.domain.entities.chunk import DocumentChunk
 
 STORE_DIR = "vector_stores"
 

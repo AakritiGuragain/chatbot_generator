@@ -1,9 +1,9 @@
 from urllib.parse import urlparse
-from ports.inbound.ingest_port import IngestPort
-from ports.outbound.scanner_port import ScannerPort
-from ports.outbound.embedder_port import EmbedderPort
-from ports.outbound.vector_store_port import VectorStorePort
-from domain.entities.website import WebsiteInput, WebsiteSession
+from src.ports.inbound.ingest_port import IngestPort
+from src.ports.outbound.scanner_port import ScannerPort
+from src.ports.outbound.embedder_port import EmbedderPort
+from src.ports.outbound.vector_store_port import VectorStorePort
+from src.domain.entities.website import WebsiteInput, WebsiteSession
 
 class IngestService(IngestPort):
     def __init__(self, scanner: ScannerPort, embedder: EmbedderPort, vector_store: VectorStorePort):

@@ -1,7 +1,7 @@
 import streamlit as st
 from urllib.parse import urlparse
 from infrastructure.dependencies import build_ingest_service, build_chat_service
-from domain.entities.website import WebsiteInput
+from src.domain.entities.website import WebsiteInput
 
 @st.cache_resource
 def get_ingest_service():

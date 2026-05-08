@@ -1,5 +1,5 @@
 from groq import Groq
-from ports.outbound.llm_port import LLMPort
+from src.ports.outbound.llm_port import LLMPort
 from infrastructure.settings import settings
 
 class GroqLLM(LLMPort):

@@ -1,7 +1,7 @@
-from ports.inbound.chat_port import ChatPort
-from ports.outbound.embedder_port import EmbedderPort
-from ports.outbound.vector_store_port import VectorStorePort
-from ports.outbound.llm_port import LLMPort
+from src.ports.inbound.chat_port import ChatPort
+from src.ports.outbound.embedder_port import EmbedderPort
+from src.ports.outbound.vector_store_port import VectorStorePort
+from src.ports.outbound.llm_port import LLMPort
 
 class ChatService(ChatPort):
     def __init__(self, embedder: EmbedderPort, vector_store: VectorStorePort, llm: LLMPort):
