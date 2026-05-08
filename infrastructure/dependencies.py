@@ -1,9 +1,9 @@
-from adapters.outbound.bs4_scanner import BS4Scanner
-from adapters.outbound.ollama_embedder import OllamaEmbedder
-from adapters.outbound.faiss_store import FAISSStore
-from adapters.outbound.groq_llm import GroqLLM
-from application.services.ingest_service import IngestService
-from application.services.chat_service import ChatService
+from src.adapters.outbound.bs4_scanner import BS4Scanner
+from src.adapters.outbound.ollama_embedder import OllamaEmbedder
+from src.adapters.outbound.faiss_store import FAISSStore
+from src.adapters.outbound.groq_llm import GroqLLM
+from src.application.services.ingest_service import IngestService
+from src.application.services.chat_service import ChatService
 
 def build_ingest_service() -> IngestService:
     return IngestService(

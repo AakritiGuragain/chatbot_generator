@@ -1,5 +1,5 @@
 from ollama import Client
-from ports.outbound.embedder_port import EmbedderPort
+from src.ports.outbound.embedder_port import EmbedderPort
 
 class OllamaEmbedder(EmbedderPort):
     def __init__(self, model: str = "nomic-embed-text"):

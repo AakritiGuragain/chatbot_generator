@@ -1,8 +1,8 @@
 import requests
 from bs4 import BeautifulSoup
 from urllib.parse import urljoin, urlparse
-from ports.outbound.scanner_port import ScannerPort
-from domain.entities.chunk import DocumentChunk
+from src.ports.outbound.scanner_port import ScannerPort
+from src.domain.entities.chunk import DocumentChunk
 
 class BS4Scanner(ScannerPort):
     def scan(self, url: str, max_pages: int) -> list[DocumentChunk]:
