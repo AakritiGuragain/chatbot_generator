@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from domain.entities.chunk import DocumentChunk
+from src.domain.entities.chunk import DocumentChunk
 
 class VectorStorePort(ABC):
     @abstractmethod
