@@ -51,6 +51,7 @@ def run():
                     st.rerun()
                 except Exception as e:
                     st.error(f"Something went wrong: {e}")
+
     else:
         company = st.session_state.company_name
         col1, col2 = st.columns([5, 1])
@@ -80,20 +81,21 @@ def run():
                 st.write(question)
 
             with st.chat_message("assistant"):
-                with st.spinner("Thinking..."):
-                    try:
-                        result = get_chat_service().chat(st.session_state.website_id, question)
-                        st.write(result["answer"])
-                        if result["sources"]:
-                            with st.expander("📎 Sources"):
-                                for s in result["sources"]:
-                                    st.caption(s)
-                        st.session_state.messages.append({
-                            "role": "assistant",
-                            "content": result["answer"],
-                            "sources": result["sources"]
-                        })
-                    except Exception as e:
-                        st.error(f"Error: {e}")
+                try:
+                    stream, sources = get_chat_service().chat_stream(
+                        st.session_state.website_id, question
+                    )
+                    full_answer = st.write_stream(stream)
+                    if sources:
+                        with st.expander("📎 Sources"):
+                            for s in sources:
+                                st.caption(s)
+                    st.session_state.messages.append({
+                        "role": "assistant",
+                        "content": full_answer,
+                        "sources": sources
+                    })
+                except Exception as e:
+                    st.error(f"Error: {e}")
 
 run()
